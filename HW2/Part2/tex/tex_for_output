@@ -1,0 +1,49 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+
+\title{Research Methods Homework 2}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Testing Pre-Trend}
+\subsection{Regression results}
+\begin{table}[h]
+    \centering
+    \caption{\textbf{Regression Test on Pre-Trends}}
+    \input{pretrends_test_reg}
+\end{table}
+
+From Table 1 above, we see that the coefficient on treated is negative and statistically significant with p = .000. We reject the null hypothesis that there is no pre-trend, suggesting evidence for between-group difference in lung-related hospitalization before the vaping ban.
+
+\subsection{"Parallel"-Trend Graph}
+\begin{figure}[h]
+    \centering
+    \caption{\textbf{Diagnostic DiD Graph (dash: 2021)}}
+    \includegraphics[width=0.8\textwidth]{did_vaping_ban.png}
+
+    \caption{\textbf{Diagnostic DiD Graph (dash: 2020)}}
+    \includegraphics[width=0.8\textwidth]{trend_plot.png}
+\end{figure}
+
+From Figure 1 below, we see that when we compare the treatment group and control group before 2021, there appears to be a significant between-group difference in 2020, where the treated group that received vaping ban in 2021 experienced a significantly larger drop in lung hospitalizations comparing to the control group. 
+
+When use the "estat trendplots" command in STATA, we get Figure 2 which sets the comparison cutoff time at year 2020. In this case, with both observed means and linear-trends models, there appear to be no between-group differences prior to 2020. 
+
+Considering the regression results (which sets cutoff at 2021), we cannot conclude that there is no significant difference between treated and control group prior to treatment. It is very plausible that there is a significant gap in announcement vs implementation gap of the vaping law that local cities or counties in the "treated" states implemented the ban before 2021. We thus need to interpret the ATT from the DiD regression with caution.  
+
+
+\section{DiD Regression with Fixed Effects}
+\begin{table}[h]
+    \centering
+    \caption{\textbf{ATT Effects of Vaping Ban on Lung Hospitalization}}
