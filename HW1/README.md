@@ -1,1 +1,1 @@
-This directory contains STATA code, pdf output, and the csv data for HW1.
+This directory contains data, code, and output for HW1.
