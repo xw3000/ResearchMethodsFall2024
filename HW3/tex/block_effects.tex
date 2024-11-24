@@ -1,0 +1,46 @@
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+                    &\multicolumn{4}{c}{(1)}\\
+                    &\multicolumn{4}{c}{Alumni Donations}\\
+\hline
+Ranked              &     500.479\sym{***}\\
+                    &       (0.234)         \\
+Academic Quality    &     100.198\sym{***}\\
+                    &       (0.752)        \\
+Athletic Quality    &      49.718\sym{***}\\
+                    &       (1.661)         \\
+Near Big Market     &     999.487\sym{***}\\
+                    &       (1.319)         \\
+Propensity Score Block=1&      -0.242         \\
+                    &       (0.859)         \\
+Propensity Score Block=2&      -0.223         \\
+                    &       (0.978)        \\
+Propensity Score Block=3&       0.709         \\
+                    &       (1.144)         \\
+Propensity Score Block=4&       0.758         \\
+                    &       (1.288)         \\
+Propensity Score Block=5&       0.622         \\
+                    &       (1.467)         \\
+(...)\\
+Propensity Score Block=20&       3.455         \\
+                    &       (4.974)         \\
+Propensity Score Block=21&       3.846         \\
+                    &       (5.347)         \\
+Propensity Score Block=22&       4.334         \\
+                    &       (5.641)         \\
+Propensity Score Block=23&       4.275         \\
+                    &       (6.091)         \\
+Propensity Score Block=24&       4.276         \\
+                    &       (6.536)         \\
+Propensity Score Block=25&       5.262         \\
+                    &       (6.773)         \\
+Constant            &      -0.137         \\
+                    &       (0.933)         \\
+\hline
+Observations        &         100         \\
+Adjusted R-squared  &       1.000         \\
+F-statistic         &  1278547.74         \\
+\hline\hline
+\multicolumn{4}{p{0.6\linewidth}}{\small *** p$<$0.01, ** p$<$0.05, * p$<$0.1} \\
+\multicolumn{4}{p{0.6\linewidth}}{\footnotesize This table presents OLS estimates of the effect of college rankings on alumni donations. Block fixed effects are included to control for propensity score quartiles. Standard errors are in parentheses. Blocks are created by grouping every 4 observations based on predicted probability of being ranked from the propensity score model.}\\
+\end{tabular}
