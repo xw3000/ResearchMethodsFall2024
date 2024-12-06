@@ -1,0 +1,169 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{dcolumn}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{enumitem}
+
+% Title Information
+\title{Research Methods II: Homework 4}
+\author{UNI: XW3000}
+\date{December 5, 2024}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+\maketitle
+
+\section{What implicit claim about causality does Obama's ``cycle of crime" theory assert? 
+}
+
+Obama's ``cycle of crime" theory implicitly asserts that the initial criminal conviction of a young person, instead of correcting behavior and reducing likelihood of future crime, may causally (not merely correlationally) increase their likelihood of future criminal behavior through two potential mechanisms:
+
+\begin{enumerate}
+    \item The initial conviction reduces the likelihood of future employment due to difficulty or failure in the background check, which then makes future crimes more tempting.
+    \item The convict during prison time may form a criminal network and adopt new criminal skills from such a network, leading to a higher probability of future crimes. 
+\end{enumerate}
+
+\section{React to my friend's research design}
+
+The proposed research design is as follows: Run a regression whose outcome is recidivism (whether the person was convicted of a second crime after he/she was out) and whose main explanatory variable is the length of the prison sentence. \\
+
+We import the data-set into STATA and run the regression as described above. The regression result is summarised in Table 1 below.
+
+\begin{table}[H]
+    \begin{center} 
+    \caption{\textbf{Effect of Jail Time on Second Conviction}}
+    \label{tab:balance}
+    \input{reg1}
+    \end{center}
+\end{table}
+
+Table 1 suggests that on average, a young person with one more month of sentence appears to be 0.9 percentage points more likely to be convicted of a second crime after he/she was out. \\
+
+My reaction: My friend's design reports the correlational relationship between the length of the first sentence and the likelihood of a second crime. Although the coefficient is positive and significant, the evidence provided by this research design is not causal.
+
+\section{An ``IV'' design}
+
+The dataset has a new variable representing whether each defendant's presiding judge was appointed by a Democrat or a Republican. It is claimed that the judges in this jurisdiction (and in most) are randomly assigned to defendants. These facts can be used in an instrumental variable (``IV'') design. 
+
+\subsection{Balance Table: Does the judge's party really seem to be randomly assigned?}
+
+\begin{table}[H]
+    \begin{center} 
+    \caption{\textbf{Balance Table: Democratic vs Republican Judges}}
+    \label{tab:balance}
+    \input{balance_table}
+    \end{center}
+\end{table}
+
+From Table 2, we fail to reject the null hypothesis that there is no difference in severity of crime between the democratic and republican judged cases. In other words, the judge's party seems to be randomly assigned.
+
+\subsection{First Stage}
+
+The first stage in the IV design examines how party affiliation of the judge (IV: z) affects the length of sentence (x). We are estimating
+$$ monthsinjail = \beta_o + \beta_1 republicanjudge + \beta_2 severityofcrime $$ where the severity of crime serves as control. 
+\\
+
+Please see Table 3 below for first-stage regression results.
+
+\begin{table}[H]
+    \begin{center} 
+     \caption{\textbf{First Stage - Effect of Judge Party on Sentence Length}}
+    \label{tab:balance}
+    \input{firststage}
+    \end{center}
+\end{table}
+
+\textbf{Interpretation of the coefficients:} Cases assigned to Republican judges receive sentences that are, on average, 3.2 months longer than those assigned to Democratic judges, holding crime severity constant. Additionally, each one-point increase in the crime severity index is associated with an 18.1-month increase in sentence length, regardless of judge party affiliation. Both effects are statistically significant at the 1\% level.
+
+\subsection{Reduced Form}
+
+We now run reduced-form regression with the following specification:
+
+$$ recidivates = \beta_o + \beta_1 republicanjudge + \beta_2 severityofcrime $$
+
+The results are as shown in Table 4  below. 
+
+\begin{table}[H]
+    \begin{center} 
+     \caption{\textbf{Reduced Form - Effect of Judge Party on Likelihood of Second Crime}}
+    \label{tab:balance}
+    \input{reducedform}
+    \end{center}
+\end{table}
+
+\subsection{IV Estimate} 
+
+\begin{align*}
+\text{IV estimate} &= \frac{\text{RF}_{\text{repub}}}{\text{FS}_{\text{repub}}} \\
+&= \frac{0.143}{3.222} \\
+&= 0.0444
+\end{align*}
+
+\section{2SLS with ivreg2}
+
+We now complete the IV regression and make a publication quality table of the second stage using ivreg2. 
+
+\begin{table}[H]
+    \begin{center} 
+     \caption{\textbf{IV Results - Effect of Incarceration on Recidivism}}
+    \label{tab:balance}
+    \input{iv_results}
+    \end{center}
+\end{table}
+
+We can see from Table 5 that the second stage coefficient on \textit{Months in Jail} is 0.044, which is consistent with the ``ratio" we obtained from Section 3.4. The F-stat associated with second stage is 122.38 (with robust SE), which is greater than the conventional threshold of 10. 
+
+\section{Other Questions }
+\subsection{Complete the sentences}
+\begin{itemize}
+\item In the research design above (using randomized judges), the \textbf{always-takers} are the defendants who are always sentenced to long jail terms no matter which party their assigned judges are affiliated with (Republican or Democratic).
+\item The \textbf{never-takers} are the defendants who are always sentenced to short jail terms no matter which judge (Republican or Democratic) they are assigned to.
+\item The \textbf{compliers} are the defendants who are sentenced to longer jail terms only if they are assigned to a Republican judge.
+\item The \textbf{defiers} are the defendants who are sentenced to shorter jail terms only if they are assigned to a Republican judge.
+\end{itemize}
+
+\subsection{Monotonicity assumption and the defier possibility}
+
+In our particular context, the monotonicity assumption would suggest that the Republican judges always give longer sentences to the defendants than Democratic judges. This assumption is reasonable because we see from first-stage regression that Republican judges on average give 3.2 months longer jail term than Democratic judges, all else equal. 
+
+As for the possibility of defiers, which in our context would refer to the situations where Republican judges might give shorter sentences than Democratic Judges. These situations are plausible, but the large first-stage F-stat adds to the empirical evidence for the monotonicity assumption, which seems more likely than defiers.
+
+\subsection{Who are the compliers?}
+
+In our data-set, the compliers are defendants whose jail terms are actually affected by the party of the judge they are assigned to. We could identify compliers through empirically identifying whose jail terms are more impacted by the party of the judge assigned to their case. Note that the severity of the crime is the observable characteristics of potential compliers, to identify whom we could regress the sentence length on the subgroups of individuals based on their crime severity. The coefficient of interaction term will inform to whom Republican judges give longer sentences. For instance, suppose we regress jail terms on the subjects with crime severity $\le$ 1 versus those with crime severity $>$ 1, we get the table below.
+
+\begin{table}[H]
+    \begin{center} 
+     \caption{\textbf{Effect of Republican Judges on Months in Jail by Crime Severity}}
+    \label{tab:balance}
+    \input{severity_reg}
+    \end{center}
+\end{table}
+
+From Table 6, we can see that subjects with the crime severity level $>$ 1 and assigned to Republican judges tend to receive longer jail terms (5.183 months at the significance level of 0.01). We can conclude with caution that they (subjects with crime severity level $>$ 1) are compliers.
+
+\subsection{Does the cycle of crime hypothesis appear to be true for the compliers?}
+
+If our conclusion from Section 5.3 is reasonable, such that subjects with crime severity level $>$ 1 are indeed compliers, we can test whether these people are more likely to be convicted of a second crime, if they received a longer jail term in their first sentence. Specifically, we regress 2SLS and estimate the effect of first-time sentence length on likelihood of second crime, condition on crime severity (similar to Table 6). We get Table 7 as below. 
+
+\begin{table}[H]
+    \begin{center} 
+     \caption{\textbf{IV Effect of Months in Jail on Second Crime Likelihood}}
+    \label{tab:balance}
+    \input{re_severity_reg}
+    \end{center}
+\end{table}
+
+As shown in Table 7, we can see that for "compliers", those with crime severity of greater than 1, are more likely to be convicted of a second crime (estimate = 0.048, statistically significant at the level of 0.001). In other words, the cycle of crime hypothesis appears to be true for the compliers, contingent on our previous definition of compliers ( subjects with crime severity level $>$ 1).
+
+\end{document}
+
